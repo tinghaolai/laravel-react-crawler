@@ -13,6 +13,10 @@
         "vite": "^3.2.5"
     },
     "dependencies": {
+        "@babel/runtime": "^7.20.6",
+        "babel-runtime": "^6.26.0",
+        "element-react": "^1.4.34",
+        "element-theme-default": "^1.4.13",
         "puppeteer": "^19.4.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
