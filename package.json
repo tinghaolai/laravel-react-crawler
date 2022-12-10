@@ -6,15 +6,16 @@
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^3.0.0",
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.7.0",
-        "lodash": "^4.17.19",
-        "postcss": "^8.1.14",
-        "vite": "^3.0.0"
+        "axios": "^1.2.1",
+        "laravel-vite-plugin": "^0.7.1",
+        "lodash": "^4.17.21",
+        "postcss": "^8.4.19",
+        "vite": "^3.2.5"
     },
     "dependencies": {
         "puppeteer": "^19.4.0",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.4.5"
     }
 }
