@@ -11,6 +11,20 @@ use Illuminate\Http\JsonResponse;
 class CrawlerController extends Controller
 {
     /**
+     * Search crawler paginate results
+     *
+     * @param Request $request
+     * @param CrawlerService $crawlerService
+     * @return JsonResponse
+     */
+    public function index(Request $request, CrawlerService $crawlerService): JsonResponse
+    {
+        return $this->handleServiceResult(
+            $crawlerService->search($request->input('perPage') ?? 10, $request->all())
+        );
+    }
+
+    /**
      * Crawl single url, return id crated
      *
      * @param Request $request

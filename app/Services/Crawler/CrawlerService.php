@@ -17,6 +17,34 @@ use Spatie\Crawler\CrawlProfiles\CrawlProfile;
 
 class CrawlerService extends CrawlObserver
 {
+    public function search(int $perPage, array $conditions): ServiceResult
+    {
+        $paginate = CrawlerModel::select(
+            'id',
+            'url',
+            'title',
+            'description',
+            'screen_shot_path',
+            'created_at'
+        )->when(!empty($conditions['title']), function ($query) use ($conditions) {
+            $query->where('title', 'like', '%' . $conditions['title'] . '%');
+        })->when(!empty($conditions['description']), function ($query) use ($conditions) {
+            $query->where('description', 'like', '%' . $conditions['description'] . '%');
+        })->when(
+            !empty($conditions['createdAt']) && count($conditions['createdAt'])  === 2,
+            function ($query) use ($conditions) {
+                $query->where('created_at', '>=', $conditions['createdAt'][0])
+                    ->where('created_at', '<=', $conditions['createdAt'][1]);
+            }
+        )->paginate($perPage);
+
+        $paginate->getCollection()->transform(function (CrawlerModel $crawler) {
+            return $this->apiFormat($crawler);
+        });
+
+        return ServiceResult::successResult(['crawlerResults' => $paginate]);
+    }
+
     public function get($id): ServiceResult
     {
         if (!($crawler = CrawlerModel::find($id))) {
