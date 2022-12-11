@@ -5,7 +5,7 @@ namespace App\Services\Crawler;
 use Psr\Http\Message\UriInterface;
 use Spatie\Crawler\CrawlProfiles\CrawlProfile;
 
-class CrawlerUrlService extends CrawlProfile
+class SingleUrlCrawlerService extends CrawlProfile
 {
     protected string $url;
 

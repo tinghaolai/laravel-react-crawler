@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Crawler;
 
 use App\Http\Controllers\Controller;
 use App\Services\Crawler\CrawlerService;
-use App\Services\Crawler\CrawlerUrlService;
+use App\Services\Crawler\SingleUrlCrawlerService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -29,13 +29,13 @@ class CrawlerController extends Controller
      *
      * @param Request $request
      * @param CrawlerService $crawlerService
-     * @param CrawlerUrlService $crawlerUrlService
+     * @param SingleUrlCrawlerService $crawlerUrlService
      * @return JsonResponse
      */
     public function store(
         Request $request,
         CrawlerService $crawlerService,
-        CrawlerUrlService $crawlerUrlService
+        SingleUrlCrawlerService $crawlerUrlService
     ): JsonResponse {
         if (!$request->has('url')) {
             return $this->inValidParam('missing url');
