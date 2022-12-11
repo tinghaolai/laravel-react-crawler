@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { withRouter } from '../../router/withRouter'
+
 class CrawlerShow extends React.Component
 {
     constructor(props) {
@@ -17,6 +19,10 @@ class CrawlerShow extends React.Component
             displayBodyClass: '',
             displayDetailLinkClass: 'noShow',
         };
+
+        if (this.props.params && this.props.params.id) {
+            this.fetch(this.props.params.id)
+        }
     }
 
     setBodyDisplay = (display) => {
@@ -67,4 +73,4 @@ class CrawlerShow extends React.Component
     }
 }
 
-export default CrawlerShow
+export default withRouter(CrawlerShow)
