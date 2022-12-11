@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { Input, Button, Pagination } from 'element-react'
+import { Input, Button, Pagination, DateRangePicker } from 'element-react'
 import { CrawlerShow } from './Show'
+import moment from 'moment'
 
 class CrawlerIndex extends React.Component
 {
@@ -16,7 +17,7 @@ class CrawlerIndex extends React.Component
             search: {
                 title: '',
                 description: '',
-                createdAt: '',
+                createdAt: [],
                 page: 1,
                 perPage: 3,
                 total: 0,
@@ -36,8 +37,13 @@ class CrawlerIndex extends React.Component
             }
         })
 
+        let search = JSON.parse(JSON.stringify(this.state.search));
+        search.createdAt = search.createdAt.map(date => {
+            return moment(date).format('YYYY-MM-DD HH:mm:ss')
+        })
+
         axios.get('/api/crawler', {
-            params: this.state.search
+            params: search
         }).then(response => {
             this.setState({
                 search: {
@@ -88,6 +94,33 @@ class CrawlerIndex extends React.Component
         this.setState({ searchUrl: value })
     }
 
+    handleConditionTitleInputChange = (value) => {
+        this.setState({
+            search: {
+                ...this.state.search,
+                title: value,
+            }
+        })
+    }
+
+    handleConditionDescriptionInputChange = (value) => {
+        this.setState({
+            search: {
+                ...this.state.search,
+                description: value,
+            }
+        })
+    }
+
+    handleConditionCreatedDateRangeInputChange = (value) => {
+        this.setState({
+            search: {
+                ...this.state.search,
+                createdAt: value,
+            }
+        })
+    }
+
     render () {
         return (
             <div>
@@ -96,6 +129,28 @@ class CrawlerIndex extends React.Component
                 <CrawlerShow ref={ this._crawlerResult } />
                 <hr/>
                 <div>History results</div>
+                <div>Search title</div>
+                <Input placeholder="Enter title to search"
+                       onChange={ this.handleConditionTitleInputChange }
+                       defaultValue={ this.state.search.title } />
+
+                <div>Search description</div>
+                <Input placeholder="Enter description to search"
+                       onChange={ this.handleConditionDescriptionInputChange }
+                       defaultValue={ this.state.search.description } />
+
+                <div>Create date range</div>
+                <DateRangePicker
+                    isShowTime={true}
+                    type="Date"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value={ this.state.search.createdAt }
+                    placeholder="select date range"
+                    onChange={ this.handleConditionCreatedDateRangeInputChange }
+                />
+
+                <div></div>
+                <Button onClick={ this.searchHistory }>Search</Button>
                 { this.state.crawlerResults }
 
                 <Pagination layout="prev, pager, next"
