@@ -13,6 +13,7 @@ use Psr\Http\Message\UriInterface;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Crawler\CrawlObservers\CrawlObserver;
 use Spatie\Crawler\Crawler;
+use Spatie\Crawler\CrawlProfiles\CrawlProfile;
 
 class CrawlerService extends CrawlObserver
 {
@@ -25,11 +26,11 @@ class CrawlerService extends CrawlObserver
         return ServiceResult::successResult($this->apiFormat($crawler));
     }
 
-    public function craw(string $url): ServiceResult
+    public function craw(string $url, CrawlProfile $crawlerUrlService): ServiceResult
     {
         Crawler::create(['verify' => false])
             ->executeJavaScript()
-            ->setCrawlProfile(new CrawlerUrlService($url))
+            ->setCrawlProfile($crawlerUrlService)
             ->setCrawlObserver($this)
             ->startCrawling($url);
 

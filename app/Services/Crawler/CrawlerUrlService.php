@@ -9,7 +9,7 @@ class CrawlerUrlService extends CrawlProfile
 {
     protected string $url;
 
-    public function __construct($url)
+    public function setUrl($url)
     {
         $this->url = $url;
     }
