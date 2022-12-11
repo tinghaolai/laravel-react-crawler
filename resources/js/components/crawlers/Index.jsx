@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Input, Button } from 'element-react'
-import CrawlerShow from './Show'
+import { CrawlerShow } from './Show'
 
 class CrawlerIndex extends React.Component
 {

@@ -73,4 +73,5 @@ class CrawlerShow extends React.Component
     }
 }
 
-export default withRouter(CrawlerShow)
+let CrawlerShowRouter = withRouter(CrawlerShow)
+export { CrawlerShowRouter, CrawlerShow };
