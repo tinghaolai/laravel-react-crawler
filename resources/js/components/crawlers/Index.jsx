@@ -26,6 +26,9 @@ class CrawlerIndex extends React.Component
         };
 
         this._crawlerResult = React.createRef();
+    }
+
+    componentDidMount = () => {
         this.searchHistory()
     }
 
