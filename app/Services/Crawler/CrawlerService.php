@@ -100,7 +100,8 @@ class CrawlerService extends CrawlObserver
         'title'          => "mixed",
         'description'    => "mixed",
         'screenShotPath' => "mixed",
-        'body'           => "mixed"
+        'body'           => "mixed",
+        'createdAt'      => "mixed"
     ])] private function apiFormat(CrawlerModel $crawler): array
     {
         return [
@@ -109,6 +110,7 @@ class CrawlerService extends CrawlObserver
             'description'    => $crawler->getAttribute('description'),
             'screenShotPath' => $crawler->getAttribute('screen_shot_path'),
             'body'           => $crawler->getAttribute('body'),
+            'createdAt'      => $crawler->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }
