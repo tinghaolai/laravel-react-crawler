@@ -15,6 +15,7 @@ class CrawlerController extends Controller
      *
      * @param Request $request
      * @param CrawlerService $crawlerService
+     * @param CrawlerUrlService $crawlerUrlService
      * @return JsonResponse
      */
     public function store(
