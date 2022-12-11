@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Input, Button } from 'element-react'
+import { Input, Button, Pagination } from 'element-react'
 import { CrawlerShow } from './Show'
 
 class CrawlerIndex extends React.Component
@@ -28,17 +28,32 @@ class CrawlerIndex extends React.Component
         this.searchHistory()
     }
 
-    searchHistory = () => {
+    searchHistory = (page = 1) => {
+        this.setState({
+            search: {
+                ...this.state.search,
+                page: page,
+            }
+        })
+
         axios.get('/api/crawler', {
             params: this.state.search
         }).then(response => {
-            this.setState({ crawlerResults: response.data.crawlerResults.data.map(result => {
+            this.setState({
+                search: {
+                    ...this.state.search,
+                    total: response.data.crawlerResults.total,
+                },
+                crawlerResults: response.data.crawlerResults.data.map(result => {
                     result.displayClass = ''
                     result.displayDetailLinkClass = ''
                     result.displayBodyClass = 'noShow'
                     result.screenShotUrl = result.screenShotPath
                     return <CrawlerShow key={ result.id } assignResult={ result }></CrawlerShow>
-                })})
+                })
+            })
+
+            window.scrollTo(0, 0);
         }).catch(error => {
             alert(error.message)
         })
@@ -82,6 +97,13 @@ class CrawlerIndex extends React.Component
                 <hr/>
                 <div>History results</div>
                 { this.state.crawlerResults }
+
+                <Pagination layout="prev, pager, next"
+                            total={ this.state.search.total }
+                            currentPage={ this.state.search.page }
+                            pageSize={ this.state.search.perPage }
+                            onCurrentChange={ this.searchHistory }
+                />
             </div>
         )
     }
