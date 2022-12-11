@@ -41,9 +41,11 @@ class CrawlerIndex extends React.Component
         })
 
         let search = JSON.parse(JSON.stringify(this.state.search));
-        search.createdAt = search.createdAt.map(date => {
-            return moment(date).format('YYYY-MM-DD HH:mm:ss')
-        })
+        if (search.createdAt && search.createdAt.length) {
+            search.createdAt = search.createdAt.map(date => {
+                return moment(date).format('YYYY-MM-DD HH:mm:ss')
+            })
+        }
 
         axios.get('/api/crawler', {
             params: search
