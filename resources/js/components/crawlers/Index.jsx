@@ -32,7 +32,6 @@ class CrawlerIndex extends React.Component
         axios.get('/api/crawler', {
             params: this.state.search
         }).then(response => {
-            console.log(response.data)
             this.setState({ crawlerResults: response.data.crawlerResults.data.map(result => {
                     result.displayClass = ''
                     result.displayDetailLinkClass = ''
