@@ -7,7 +7,7 @@ class CrawlerShow extends React.Component
     constructor(props) {
         super(props);
 
-        this.state = {
+        let state = {
             displayClass: 'noShow',
             id: null,
             title: null,
@@ -18,8 +18,17 @@ class CrawlerShow extends React.Component
             createdAt: null,
             displayBodyClass: '',
             displayDetailLinkClass: 'noShow',
-        };
+        }
 
+        if (this.props.assignResult) {
+            Object.keys(state).forEach(key => {
+                if (this.props.assignResult[key] !== undefined) {
+                    state[key] = this.props.assignResult[key]
+                }
+            })
+        }
+
+        this.state = state
         if (this.props.params && this.props.params.id) {
             this.fetch(this.props.params.id)
         }

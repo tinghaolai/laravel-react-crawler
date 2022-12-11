@@ -13,9 +13,36 @@ class CrawlerIndex extends React.Component
             crawlerResultDisplay: false,
             crawlerButtonDisabled: false,
             crawledId: null,
+            search: {
+                title: '',
+                description: '',
+                createdAt: '',
+                page: 1,
+                perPage: 3,
+                total: 0,
+            },
+            crawlerResults: [],
         };
 
         this._crawlerResult = React.createRef();
+        this.searchHistory()
+    }
+
+    searchHistory = () => {
+        axios.get('/api/crawler', {
+            params: this.state.search
+        }).then(response => {
+            console.log(response.data)
+            this.setState({ crawlerResults: response.data.crawlerResults.data.map(result => {
+                    result.displayClass = ''
+                    result.displayDetailLinkClass = ''
+                    result.displayBodyClass = 'noShow'
+                    result.screenShotUrl = result.screenShotPath
+                    return <CrawlerShow key={ result.id } assignResult={ result }></CrawlerShow>
+                })})
+        }).catch(error => {
+            alert(error.message)
+        })
     }
 
     crawl = () => {
@@ -53,6 +80,9 @@ class CrawlerIndex extends React.Component
                 <Input placeholder="Enter url to crawl" onChange={ this.handleUrlInputChange } defaultValue={ this.state.searchUrl } />
                 <Button onClick={ this.crawl } disabled={ this.state.crawlerButtonDisabled }>Crawl</Button>
                 <CrawlerShow ref={ this._crawlerResult } />
+                <hr/>
+                <div>History results</div>
+                { this.state.crawlerResults }
             </div>
         )
     }
