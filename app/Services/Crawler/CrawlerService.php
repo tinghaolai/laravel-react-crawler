@@ -125,6 +125,7 @@ class CrawlerService extends CrawlObserver
 
 
     #[ArrayShape([
+        'id'             => "mixed",
         'url'            => "mixed",
         'title'          => "mixed",
         'description'    => "mixed",
@@ -134,6 +135,7 @@ class CrawlerService extends CrawlObserver
     ])] private function apiFormat(CrawlerModel $crawler): array
     {
         return [
+            'id'             => $crawler->getAttribute('id'),
             'url'            => $crawler->getAttribute('url'),
             'title'          => $crawler->getAttribute('title'),
             'description'    => $crawler->getAttribute('description'),
