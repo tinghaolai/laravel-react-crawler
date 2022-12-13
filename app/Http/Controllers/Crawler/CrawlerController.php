@@ -11,11 +11,64 @@ use Illuminate\Http\JsonResponse;
 class CrawlerController extends Controller
 {
     /**
-     * Search crawler paginate results
-     *
-     * @param Request $request
-     * @param CrawlerService $crawlerService
-     * @return JsonResponse
+     * @OA\Get(
+     *      path="/api/crawler",
+     *      operationId="api/crawler/index",
+     *      tags={"cralwer"},
+     *      summary="Cralwer index api",
+     *      description="search crawler results with optional paramters",
+     *      @OA\Parameter(
+     *          name="perPage",
+     *          description="paginate size",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="page",
+     *          description="paginate search page",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="tile",
+     *          description="crawler url result title fuzzy search",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="crawler url result description fuzzy search",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="createdAt[]",
+     *          description="search crawler result created at date range",
+     *          required=false,
+     *          in="query",
+ *              @OA\Schema(
+     *              type="array",
+     *              @OA\Items(type="timestamp"),
+     *              example={"2022-12-12 00:00:00","2022-12-12 00:00:01"}
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="paginate result"
+     *       ),
+     * )
      */
     public function index(Request $request, CrawlerService $crawlerService): JsonResponse
     {
@@ -24,14 +77,6 @@ class CrawlerController extends Controller
         );
     }
 
-    /**
-     * Crawl single url, return id crated
-     *
-     * @param Request $request
-     * @param CrawlerService $crawlerService
-     * @param SingleUrlCrawlerService $crawlerUrlService
-     * @return JsonResponse
-     */
     public function store(
         Request $request,
         CrawlerService $crawlerService,
@@ -48,13 +93,6 @@ class CrawlerController extends Controller
         ));
     }
 
-    /**
-     * Get crawled page info by id
-     *
-     * @param $id
-     * @param CrawlerService $crawlerService
-     * @return JsonResponse
-     */
     public function show($id, CrawlerService $crawlerService): JsonResponse
     {
         return $this->handleServiceResult($crawlerService->get($id));

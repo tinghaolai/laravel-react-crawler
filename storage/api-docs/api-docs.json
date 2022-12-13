@@ -1,0 +1,98 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel-react-crawler api",
+        "description": " Api documentation",
+        "contact": {
+            "email": "test@test.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/crawler": {
+            "get": {
+                "tags": [
+                    "cralwer"
+                ],
+                "summary": "Cralwer index api",
+                "description": "search crawler results with optional paramters",
+                "operationId": "api/crawler/index",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "paginate size",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "paginate search page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "tile",
+                        "in": "query",
+                        "description": "crawler url result title fuzzy search",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "crawler url result description fuzzy search",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "createdAt[]",
+                        "in": "query",
+                        "description": "search crawler result created at date range",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "timestamp"
+                            },
+                            "example": [
+                                "2022-12-12 00:00:00",
+                                "2022-12-12 00:00:01"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Projects",
+            "description": " Api Endpoints"
+        }
+    ]
+}
