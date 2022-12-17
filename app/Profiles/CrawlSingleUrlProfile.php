@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Services\Crawler;
+namespace App\Profiles;
 
 use Psr\Http\Message\UriInterface;
 use Spatie\Crawler\CrawlProfiles\CrawlProfile;
+use App\Profiles\Interfaces\CrawlProfileInterface;
 
-class SingleUrlCrawlerService extends CrawlProfile
+class CrawlSingleUrlProfile extends CrawlProfile implements CrawlProfileInterface
 {
     protected string $url;
 

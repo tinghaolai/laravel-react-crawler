@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services\Crawler;
 
-use App\Services\Crawler\SingleUrlCrawlerService;
-use Tests\TestCase;
+use App\Profiles\CrawlSingleUrlProfile;
 use Psr\Http\Message\UriInterface;
+use Tests\TestCase;
 
 class SingleUrlCrawlerServiceTest extends TestCase
 {
@@ -19,7 +19,7 @@ class SingleUrlCrawlerServiceTest extends TestCase
         $url = \Mockery::mock(UriInterface::class);
         $url->shouldReceive('__toString')->andReturn('test-url-not-same');
 
-        $service = new SingleUrlCrawlerService();
+        $service = new CrawlSingleUrlProfile();
         $this->setProperties($service, ['url' => 'test-url']);
         $result = $service->shouldCrawl($url);
         $this->assertFalse($result);
@@ -37,7 +37,7 @@ class SingleUrlCrawlerServiceTest extends TestCase
         $url = \Mockery::mock(UriInterface::class);
         $url->shouldReceive('__toString')->andReturn('test-url');
 
-        $service = new SingleUrlCrawlerService();
+        $service = new CrawlSingleUrlProfile();
         $this->setProperties($service, ['url' => 'test-url']);
         $result = $service->shouldCrawl($url);
         $this->assertTrue($result);
