@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Crawler as CrawlerModel;
+use App\Observers\Interfaces\CrawObserverInterface;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,7 @@ use Psr\Http\Message\UriInterface;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Crawler\CrawlObservers\CrawlObserver as BaseObserver;
 
-class CrawObserver extends BaseObserver
+class CrawObserver extends BaseObserver implements CrawObserverInterface
 {
     public function crawled(UriInterface $url, ResponseInterface $response, ?UriInterface $foundOnUrl = null): void
     {

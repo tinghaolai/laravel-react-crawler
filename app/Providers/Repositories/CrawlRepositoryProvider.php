@@ -3,6 +3,8 @@
 namespace App\Providers\Repositories;
 
 use App\Models\Crawler;
+use App\Observers\CrawObserver;
+use App\Profiles\CrawlSingleUrlProfile;
 use App\Repositories\CrawlRepository;
 use App\Repositories\Interfaces\CrawlRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +19,11 @@ class CrawlRepositoryProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(CrawlRepositoryInterface::class, function ($app) {
-            return new CrawlRepository(new Crawler());
+            return new CrawlRepository(
+                new Crawler(),
+                new CrawlSingleUrlProfile(),
+                new CrawObserver()
+            );
         });
     }
 

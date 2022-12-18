@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Observers\CrawObserver;
-use App\Profiles\CrawlSingleUrlProfile;
+use App\Observers\Interfaces\CrawObserverInterface;
+use App\Profiles\Interfaces\CrawlProfileInterface;
 use App\Repositories\Interfaces\CrawlRepositoryInterface;
 use App\Services\ServiceResult;
 use Illuminate\Database\Eloquent\Model;
@@ -13,10 +13,17 @@ use Spatie\Crawler\Crawler;
 class CrawlRepository implements CrawlRepositoryInterface
 {
     private Model $crawlerModel;
+    private CrawlProfileInterface $crawlProfile;
+    private CrawObserverInterface $crawObserver;
 
-    public function __construct(Model $crawlerModel)
-    {
+    public function __construct(
+        Model $crawlerModel,
+        CrawlProfileInterface $crawlProfile,
+        CrawObserverInterface $crawObserver
+    ) {
         $this->crawlerModel = $crawlerModel;
+        $this->crawlProfile = $crawlProfile;
+        $this->crawObserver = $crawObserver;
     }
 
     public function search(int $perPage, array $conditions): ServiceResult
@@ -58,13 +65,12 @@ class CrawlRepository implements CrawlRepositoryInterface
 
     public function craw(string $url): ServiceResult
     {
-        $crawlerProfile = new CrawlSingleUrlProfile();
-        $crawlerProfile->setUrl($url);
+        $this->crawlProfile->setUrl($url);
 
         Crawler::create(['verify' => false])
             ->executeJavaScript()
-            ->setCrawlProfile($crawlerProfile)
-            ->setCrawlObserver(new CrawObserver())
+            ->setCrawlProfile($this->crawlProfile)
+            ->setCrawlObserver($this->crawObserver)
             ->startCrawling($url);
 
         $crawler = $this->crawlerModel::where('url', $url)->first();
