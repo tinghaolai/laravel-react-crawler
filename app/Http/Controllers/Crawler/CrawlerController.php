@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Crawler;
 
 use App\Http\Controllers\Controller;
-use App\Services\Crawler\CrawlerService;
+use App\Services\Crawler\Interfaces\CrawlServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -69,14 +69,14 @@ class CrawlerController extends Controller
      *       ),
      * )
      */
-    public function index(Request $request, CrawlerService $crawlerService): JsonResponse
+    public function index(Request $request, CrawlServiceInterface $crawlerService): JsonResponse
     {
         return $this->handleServiceResult(
             $crawlerService->search($request->input('perPage') ?? 10, $request->all())
         );
     }
 
-    public function store(Request $request, CrawlerService $crawlerService): JsonResponse
+    public function store(Request $request, CrawlServiceInterface $crawlerService): JsonResponse
     {
         if (!$request->has('url')) {
             return $this->inValidParam('missing url');
@@ -87,7 +87,7 @@ class CrawlerController extends Controller
         ));
     }
 
-    public function show($id, CrawlerService $crawlerService): JsonResponse
+    public function show($id, CrawlServiceInterface $crawlerService): JsonResponse
     {
         return $this->handleServiceResult($crawlerService->get($id));
     }

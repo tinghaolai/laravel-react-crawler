@@ -2,7 +2,6 @@
 
 namespace App\Services\Crawler\Interfaces;
 
-Interface CrawlServiceInterface
+interface CrawlServiceInterface
 {
-
 }

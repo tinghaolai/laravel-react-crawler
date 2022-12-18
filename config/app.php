@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\Repositories\CrawlRepositoryProvider;
+use App\Providers\Services\CrawlServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -196,7 +197,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         CrawlRepositoryProvider::class,
-
+        CrawlServiceProvider::class,
     ],
 
     /*
