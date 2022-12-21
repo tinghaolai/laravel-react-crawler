@@ -1,0 +1,45 @@
+image: docker
+
+services:
+  - docker:dind
+
+variables:
+  CI_IMAGE: $CI_REGISTRY_IMAGE/dave-test-image:latest
+  GITLAB_REGISTRY_USERNAME: gitlab+deploy-token-1611692
+  MYSQL_DATABASE: laravel
+  MYSQL_ROOT_PASSWORD: laravel
+
+stages:
+  - build
+  - test
+
+build_job:
+  stage: build
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /build-image/
+      - $CI_COMMIT_TAG =~ /build-image/
+  before_script:
+    - docker login $CI_REGISTRY -u $GITLAB_REGISTRY_USERNAME -p $GITLAB_REGISTRY_PASSWORD
+  script:
+    - docker build -t $CI_IMAGE .
+    - docker push $CI_IMAGE
+
+test_job:
+  stage: test
+  image: $CI_IMAGE
+  services:
+    - mysql:8.0
+  variables:
+    MYSQL_ROOT_PASSWORD: laravel
+    MYSQL_DATABASE: laravel
+    MYSQL_USER: laravel
+    MYSQL_PASSWORD: laravel
+  script:
+    - bash scripts/gitlab-ci.sh
+    - composer install
+    - php artisan key:generate
+    - php artisan optimize
+    - php artisan migrate:install
+    - php artisan migrate
+    - php artisan test
