@@ -1,4 +1,0 @@
-## Todos
-
-- [ ] CI/CD
-- [ ] Kubernetes
